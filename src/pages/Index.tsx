@@ -1,12 +1,41 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { Home } from "./Home";
+import { Products } from "./Products";
+import { Services } from "./Services";
+import { About } from "./About";
+import { Contact } from "./Contact";
 
 const Index = () => {
+  const [currentPage, setCurrentPage] = useState('home');
+
+  const navigate = (page: string) => {
+    setCurrentPage(page);
+    window.scrollTo(0, 0);
+  };
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'products':
+        return <Products navigate={navigate} />;
+      case 'services':
+        return <Services navigate={navigate} />;
+      case 'about':
+        return <About navigate={navigate} />;
+      case 'contact':
+        return <Contact />;
+      case 'home':
+      default:
+        return <Home navigate={navigate} />;
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background font-sans antialiased">
+      <Header currentPage={currentPage} navigate={navigate} />
+      {renderPage()}
+      <Footer navigate={navigate} />
     </div>
   );
 };
